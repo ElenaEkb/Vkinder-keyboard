@@ -23,29 +23,30 @@ class Bot:
             return 0
 
     def loopLongPoll(self):
-        user = self.kinder.GetUser(random.randint(1, 100000))
+        user = {}
         for event in VkLongPoll(self.vk_session).listen():
             if event.type == VkEventType.MESSAGE_NEW:
                 if event.to_me:
                     request = event.text
                     if request.lower() == "привет":
-                        user = self.kinder.GetUser(event.user_id)[0]
-                        pprint.pprint(user)
-                        self.write_msg(event.user_id, f"Хай, {user['first_name']}. Введите возраст?")
+                        user[event.user_id] = self.kinder.GetUser(event.user_id)[0]
+                        #pprint.pprint(user[event.user_id])
+                        self.write_msg(event.user_id, f"Хай, {user[event.user_id]['first_name']}. Введите возраст?")
                     elif request.isnumeric():
+                        # Todo обработать исключения KeyError не ввели привет
                         friends = self.kinder.GetUsers(
                             count=1, status=1,
-                            hometown=user['city']['title'],
-                            sex=self.getSerachSex(user['sex']),
+                            hometown=user[event.user_id]['city']['title'],
+                            sex=self.getSerachSex(user[event.user_id]['sex']),
                             age=int(request))
-                        pprint.pprint(friends)
+                        #pprint.pprint(friends)
                         if len(friends) == 0:
                             self.write_msg(event.user_id,f"Нет подходящих кандидатур по вашему запросу. Введите другой возраст")
                             continue
-
-                        photos = self.kinder.GetTopPhotos(friends[0]['id'])
-                        pprint.pprint(photos)
-                        msg = f"Нашел друга https://vk.com/id{event.user_id}, \nФото"
+                        friend_id = friends[0]['id']
+                        photos = self.kinder.GetTopPhotos(friend_id)
+                        #pprint.pprint(photos)
+                        msg = f"Нашел друга https://vk.com/id{friend_id}, \nФото"
                         for photo in photos:
                             photo_url = max(photo['sizes'], key=lambda p: p['height'])['url']
                             msg = f"{msg} {photo_url}"
