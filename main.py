@@ -28,5 +28,5 @@ def main():
 if __name__ == "__main__":
     import pprint
     vkk = Vkinder(token)
-    pprint.pprint(vkk.GetUsers())
+    pprint.pprint(vkk.GetTopPhotos())
     main()
