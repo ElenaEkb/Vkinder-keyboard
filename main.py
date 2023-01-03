@@ -1,32 +1,14 @@
-from random import randrange
-
-import vk_api
-from vk_api.longpoll import VkLongPoll, VkEventType
 from config import token, group_token
 from vk.sync import Vkinder
+from bot.main import Bot
+from vk_api.utils import enable_debug_mode
 
-vk = vk_api.VkApi(token=group_token)
-longpoll = VkLongPoll(vk)
-
-
-def write_msg(user_id, message):
-    vk.method('messages.send', {'user_id': user_id, 'message': message,  'random_id': randrange(10 ** 7),})
-
-
-def main():
-    for event in longpoll.listen():
-        if event.type == VkEventType.MESSAGE_NEW:
-            if event.to_me:
-                request = event.text
-                if request.lower() == "привет":
-                    write_msg(event.user_id, f"Хай, {event.user_id}")
-                elif request.lower() == "пока":
-                    write_msg(event.user_id, "Пока((")
-                else:
-                    write_msg(event.user_id, "Не поняла вашего ответа...")
 
 if __name__ == "__main__":
     import pprint
-    vkk = Vkinder(token)
-    pprint.pprint(vkk.GetTopPhotos())
-    main()
+    vk_kinder = Vkinder(token)
+    vk_bot = Bot(group_token, vk_kinder)
+    enable_debug_mode(vk_bot.vk_session)
+    #
+    # pprint.pprint(vkk.GetTopPhotos(vkk.GetUsers(count=1, hometown="Екатеринбург", status=1, sex=2, age=30)[0]['id']))
+    vk_bot.loopLongPoll()
