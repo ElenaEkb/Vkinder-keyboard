@@ -30,3 +30,8 @@ def insert_users(user, photo_data):
                            f"\'{user['last_name']}\', {photo_data['photo_ids'][0]},"
                            f"{photo_data['photo_ids'][1]}, {photo_data['photo_ids'][2]});")
 
+def check_users(user):
+    if  connection.execute(f" SELECT id FROM friend_users WHERE id={user['id']}").fetchone():
+        return  False
+        return  True
+
