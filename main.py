@@ -2,6 +2,7 @@ from config import token, group_token
 from vk.sync import Vkinder
 from bot.main import Bot
 from vk_api.utils import enable_debug_mode
+from datebase
 
 
 if __name__ == "__main__":
