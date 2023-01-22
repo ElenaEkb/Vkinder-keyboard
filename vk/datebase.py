@@ -1,3 +1,6 @@
+import sqlalchemy
+import psycopg2
+
 def creat_db():
     initial_connection = psycopd2.connect(
         database='diplom',
