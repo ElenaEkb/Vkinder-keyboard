@@ -17,9 +17,9 @@ for event in bot.longpoll.listen():
                              VkKeyboardColor.PRIMARY, VkKeyboardColor.POSITIVE]
             for btn, btn_color in zip(buttons, button_colors):
                 keyboard.add_button(btn, btn_color)
-            bot.send_msg(user_id, f'{bot.name(user_id)} Бот готов к поиску, нажмите кнопку: \n '
-                                  f' "Поиск" - Поиск людей. \n'
-                                  f' "Завершить" - работа с ботом завершена. \n'
+            bot.send_msg(user_id, f'{bot.name(user_id)} Бот инструкция: \n '
+                                  f' "Поиск" - Поиск людей по параметрам. \n'
+                                  f' "Завершить" - Завершить чат с ботом. \n'
                                   f' "Смотреть" - просмотр следующей анкеты.', keyboard)
         elif request == 'поиск':
             bot.get_age_of_user(user_id)
@@ -31,7 +31,7 @@ for event in bot.longpoll.listen():
             bot.send_msg(user_id, f'{bot.name(user_id)} Бот готов продолжить, нажмите кнопку: \n '
                                   f' "Поиск" - Поиск людей с другими параметрами. \n'
                                   f' "Завершить" - работа с ботом завершена. \n'
-                                  f' "Смотреть" - просмотр следующей записи в БД.', keyboard)
+                                  f' "Смотреть" - просмотр следующей анкеты.', keyboard)
         elif request == 'смотреть':
             if bot.get_found_person_id() == None:
                 bot.looking_persons_offset += 100
@@ -49,7 +49,4 @@ for event in bot.longpoll.listen():
             button_colors = [VkKeyboardColor.PRIMARY]
             for btn, btn_color in zip(buttons, button_colors):
                 keyboard.add_button(btn, btn_color)
-            bot.send_msg(user_id, f'{bot.name(user_id)} Бот готов к поиску, нажмите кнопку Привет: Далее инструкция \n '
-                         f' "Поиск" - Поиск людей. \n'
-                         f' "Завершить" - работа с ботом завершена. \n'
-                         f' "Смотреть" - просмотр следующей анкеты.', keyboard)
+            bot.send_msg(user_id, f'{bot.name(user_id)} Бот готов к поиску, нажмите кнопку Привет', keyboard)
