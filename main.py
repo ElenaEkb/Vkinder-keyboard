@@ -12,14 +12,14 @@ for event in bot.longpoll.listen():
         user_id = event.user_id
         if request == 'start' or request == 'привет':
             keyboard = VkKeyboard(one_time=True)
-            buttons = ['поиск', 'смотреть', 'удалить']
+            buttons = ['поиск', 'смотреть', 'завершить']
             button_colors = [VkKeyboardColor.NEGATIVE,
                              VkKeyboardColor.PRIMARY, VkKeyboardColor.POSITIVE]
             for btn, btn_color in zip(buttons, button_colors):
                 keyboard.add_button(btn, btn_color)
             bot.send_msg(user_id, f'{bot.name(user_id)} Бот готов к поиску, нажмите кнопку: \n '
                                   f' "Поиск" - Поиск людей. \n'
-                                  f' "Удалить" - удаляет старую БД и создает новую. \n'
+                                  f' "Завершить" - работа с ботом завершена. \n'
                                   f' "Смотреть" - просмотр следующей анкеты.', keyboard)
         elif request == 'поиск':
             bot.get_age_of_user(user_id)
@@ -30,7 +30,7 @@ for event in bot.longpoll.listen():
             bot.show_found_person(user_id)
             bot.send_msg(user_id, f'{bot.name(user_id)} Бот готов продолжить, нажмите кнопку: \n '
                                   f' "Поиск" - Поиск людей с другими параметрами. \n'
-                                  f' "Удалить" - удаляет старую БД и создает новую. \n'
+                                  f' "Завершить" - работа с ботом завершена. \n'
                                   f' "Смотреть" - просмотр следующей записи в БД.', keyboard)
         elif request == 'смотреть':
             if bot.get_found_person_id() == None:
@@ -39,13 +39,12 @@ for event in bot.longpoll.listen():
             bot.show_found_person(user_id)
             bot.send_msg(
                 user_id, f'{bot.name(user_id)} продолжим поиск по заданным параметрам)', keyboard)
-            # bot.send_msg(user_id, f'{bot.name(user_id)} Необходимо нажать "поиск" или "удалить"', keyboard)
-        elif request == 'удалить':
-            create_table_seen_person()  # создает новую БД.
+
+        elif request == 'завершить':
             bot.send_msg(
-                user_id, f' База данных очищена! Сейчас нажмите "Поиск"', keyboard)
+                user_id, f'{bot.name(user_id)}, До свидание!', keyboard=None)
         else:
             bot.send_msg(user_id, f'{bot.name(user_id)} Бот готов к поиску, нажмите кнопку: \n '
                          f' "Поиск" - Поиск людей. \n'
-                         f' "Удалить" - удаляет старую БД и создает новую. \n'
-                         f' "Смотреть" - просмотр следующей записи в БД.', keyboard)
+                         f' "Завершить" - работа с ботом завершена. \n'
+                         f' "Смотреть" - просмотр следующей анкеты.', keyboard)

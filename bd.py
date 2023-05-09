@@ -5,7 +5,7 @@ conn = psycopg2.connect(
     host='localhost',
     user='postgres',
     password='Ghfdlf1407$',
-    database='diplom'
+    database='ElenaLebedeva'
     )
 
 
@@ -14,8 +14,8 @@ def create_table_seen_person(conn):
     with conn.cursor() as cursor:
         cursor.execute(
             """CREATE TABLE IF NOT EXISTS seen_person(
-                id_vk varchar(50) NOT NULL,
-                id_ws varchar(50) NOT NULL,
+                id_vk INTEGER NOT NULL,
+                id_ws INTEGER NOT NULL,
                 PRIMARY KEY(id_vk, id_ws));"""
         )
         conn.commit()
@@ -44,14 +44,13 @@ def check(conn, id_vk, id_ws):
         out = cursor.fetchall()
         return False if out else True
 
-    return False if out else True
-
 
 if __name__ == '__main__':
     conn = psycopg2.connect(
         host='localhost',
         user='postgres',
         password='Ghfdlf1407$',
-        database='diplom'
+        database='ElenaLebedeva'
     )
+create_table_seen_person(conn)
 

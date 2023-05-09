@@ -253,7 +253,6 @@ class Bot:
         for i in res['items']:
             photo_id = str(i["id"])
             i_likes = i["likes"]
-            # i_comments = i["comments"]
             if i_likes["count"]:
                 likes = i_likes["count"]
                 dict_photos[likes] = photo_id
@@ -275,28 +274,9 @@ class Bot:
                 return print(f'Нет фото')
 
     def get_found_person_id(self):
+        if len(self.list_found_persons) == 0:
+            return None
         return self.list_found_persons.pop()
-        # seen_person = []
-        # for i in check(conn, ):
-        #     seen_person.append(int(i[0]))
-        # if not seen_person:
-        #     try:
-        #         unique_person_id = self.list_found_persons[0]
-        #         return unique_person_id
-        #     except NameError:
-        #         found_persons = 0
-        #         return found_persons
-        # else:
-        #     try:
-        #         for ifp in self.list_found_persons:
-        #             if ifp in seen_person:
-        #                 pass
-        #             else:
-        #                 unique_person_id = ifp
-        #                 return unique_person_id
-        #     except NameError:
-        #         found_persons = 0
-        #         return found_persons
 
     def found_person_info(self, show_person_id):
         """ИНФОРМАЦИЯ ИЗ АНКЕТЫ НАЙДЕННОЙ """
@@ -370,12 +350,12 @@ class Bot:
                     self.show_found_person(user_id)
                     return
         else:
-            ws_id = self.get_found_person_id()
+            id_ws = self.get_found_person_id()
             self.send_msg(user_id, self.found_person_info(
-                ws_id), keyboard=None)
+                id_ws), keyboard=None)
             self.send_photo(user_id, 'Фото с максимальными лайками',
-                            self.photo_of_found_person(ws_id))
-            insert_data_seen_person(conn, user_id, ws_id)
+                            self.photo_of_found_person(id_ws))
+            insert_data_seen_person(conn, user_id, id_ws)
 
 
 bot = Bot()
