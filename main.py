@@ -44,7 +44,12 @@ for event in bot.longpoll.listen():
             bot.send_msg(
                 user_id, f'{bot.name(user_id)}, До свидание!', keyboard=None)
         else:
-            bot.send_msg(user_id, f'{bot.name(user_id)} Бот готов к поиску, нажмите кнопку: \n '
+            keyboard = VkKeyboard(one_time=True)
+            buttons = ["Привет"]
+            button_colors = [VkKeyboardColor.PRIMARY]
+            for btn, btn_color in zip(buttons, button_colors):
+                keyboard.add_button(btn, btn_color)
+            bot.send_msg(user_id, f'{bot.name(user_id)} Бот готов к поиску, нажмите кнопку Привет: Далее инструкция \n '
                          f' "Поиск" - Поиск людей. \n'
                          f' "Завершить" - работа с ботом завершена. \n'
                          f' "Смотреть" - просмотр следующей анкеты.', keyboard)
